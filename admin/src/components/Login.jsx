@@ -19,12 +19,14 @@ export const Login = () => {
     }
 
     const submit = async () => {
-        const formData = new FormData()
-        formData.append('user',user)
-        formData.append('password',password)
         
+        const submit = {
+            user,
+            password
+        }
+
         try{
-            await axios.post('/login',formData)
+            await axios.post('http://127.0.0.1:4000/teste',submit)
             console.log('OK')
         }catch(err){
             console.log(err)
