@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export const Login = () => {
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate()
 
     const handleUserChange = ({ value }) => {
         setUser(value)
@@ -18,19 +20,17 @@ export const Login = () => {
         submit()
     }
 
-    const submit = async () => {
+    const submit =  () => {
         
         const submit = {
             user,
             password
         }
 
-        try{
-            await axios.post('http://127.0.0.1:4000/teste',submit)
-            console.log('OK')
-        }catch(err){
-            console.log(err)
-        }
+        axios.post('http://127.0.0.1:4000/login',submit)
+            .then(res => navigate('/photos'))
+            .catch(err => alert(err.response.data))
+           
     }
 
 

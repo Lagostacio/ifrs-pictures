@@ -37,7 +37,10 @@ app.put('/photos', (req, res) => {
     res.send('ok')
 })
 
-app.post('/login')
+app.post('/login',(req,res)=> {
+    console.log(req.body)
+    return res.status(400).send('Deu erro!!!')
+})
 
 
 app.post('/teste', (req, res) => {
