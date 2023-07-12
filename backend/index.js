@@ -34,11 +34,16 @@ app.put('/photos', (req, res) => {
     let foto = photos.find(v => v.id == id)
     foto.status = status
 
-    res.send('ok')
+    return res.status(400).send('deu erro!!!')
+    return res.send('ok')
+
 })
 
-app.post('/login',(req,res)=> {
-    console.log(req.body)
+app.post('/login', (req, res) => {
+    const { user, password } = req.body
+    if (user == '123' && password == '123')
+        return res.send('ok')
+
     return res.status(400).send('Deu erro!!!')
 })
 
