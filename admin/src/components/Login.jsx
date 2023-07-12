@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+const API_URL = import.meta.env.VITE_API_URL
 
 export const Login = () => {
     const [user, setUser] = useState('')
@@ -27,7 +28,7 @@ export const Login = () => {
             password
         }
 
-        axios.post('http://127.0.0.1:4000/login',submit)
+        axios.post(`${API_URL}/login`,submit)
             .then(res => navigate('/photos'))
             .catch(err => alert(err.response.data))
            

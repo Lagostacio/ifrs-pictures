@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+const API_URL = import.meta.env.VITE_API_URL
 
 export const PhotoRequests = () => {
 
@@ -7,7 +8,7 @@ export const PhotoRequests = () => {
     const [photos, setPhotos] = useState([])
 
     useEffect(()=>{
-        axios.get('http://localhost:4000/photos') 
+        axios.get(`${API_URL}/photos`) 
             .then(res => setPhotos(res.data))
             .catch(err => console.error(err))
     },[])
@@ -21,7 +22,7 @@ export const PhotoRequests = () => {
             status: status == 'approve' ? 1 : 0
         }
 
-        axios.put('http://localhost:4000/photos', data)
+        axios.put(`${API_URL}/photos`, data)
             .then(() => {
                 setPhotos(photos.filter(photo => photo.id != id ))
             })
