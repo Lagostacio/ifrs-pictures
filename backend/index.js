@@ -5,6 +5,7 @@ const port = 4000
 var photos = [
     { id: 1, img: 'cat1.png', text: 'texto1', status: -1 },
     { id: 2, img: 'cat1.png', text: 'texto2', status: -1 },
+    { id: 3, img: 'cat1.png', text: 'texto3', status: -1 },
 ]
 
 app.use((req, res, next) => {
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static('public'))
 
 app.get('/', (req, res) => {
     res.send('ok')
@@ -34,7 +36,7 @@ app.put('/photos', (req, res) => {
     let foto = photos.find(v => v.id == id)
     foto.status = status
 
-    return res.status(400).send('deu erro!!!')
+    // return    res.status(400).send('deu erro!!!')
     return res.send('ok')
 
 })
