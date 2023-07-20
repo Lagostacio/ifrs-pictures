@@ -23,7 +23,7 @@ function App() {
       {
         photos.length > 0 && photos.map((photo,index)=>{
           return(
-            <Card key={index} src={`${API_URL}/img/${photo.img}`} text={photo.text}/>
+            <Card key={index} src={`${API_URL}/img/${photo.filename}`} text={photo.text}/>
           )
         })
       }

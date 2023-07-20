@@ -11,7 +11,7 @@ export const ListPhotos = ({ setError }) => {
         justifyContent: 'space-between',
         borderRadius:'8px',
     }
-    const imgPath = '/img/'
+    const imgPath = `${API_URL}/img/`
     const [photos, setPhotos] = useState([])
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export const ListPhotos = ({ setError }) => {
                 photos.length > 0 && photos.map(photo => {
                     return (
                         <div key={photo.id} style={photoStyle}>
-                            <img className='photo' src={imgPath + photo.img} />
+                            <img className='photo' src={imgPath + photo.filename} />
                             <span>{photo.text}</span>
                             <div>
                                 <button onClick={() => sendPhoto(photo, 'approve')} className="ok">Ok</button>
