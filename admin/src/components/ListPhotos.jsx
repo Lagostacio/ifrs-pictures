@@ -37,13 +37,13 @@ export const ListPhotos = ({ setError }) => {
 
     }, [])
 
-    const sendPhoto = ({ id, text }, status) => {
+    const sendPhoto = ({ _id, text }, status) => {
 
         if (!confirm(`do you really wish to ${status} ${text}?`)) 
             return
 
         const data = {
-            id,
+            _id,
             status: status == 'approve' ? 1 : 0
         }
         console.log(data)
@@ -53,7 +53,7 @@ export const ListPhotos = ({ setError }) => {
             }
         })
             .then(() => {
-                setPhotos(photos.filter(photo => photo.id != id))
+                setPhotos(photos.filter(photo => photo._id != _id))
                 setError('')
             })
             .catch((error) => {
@@ -67,7 +67,7 @@ export const ListPhotos = ({ setError }) => {
             {
                 photos.length > 0 && photos.map(photo => {
                     return (
-                        <div key={photo.id} className='photoStyle'>
+                        <div key={photo._id} className='photoStyle'>
                             <img className='photo' src={imgPath + photo.filename} />
                             <span>{photo.text}</span>
                             <div>

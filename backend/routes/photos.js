@@ -3,9 +3,11 @@ const router = express.Router()
 
 const { photoController } = require('../controllers/')
 const isAuthenticated = require('../middlewares/isAuthenticated')
+const upload = require('../controllers/multer')
+
 
 // Define a route for file upload
-router.post('/photos', photoController.upload.single('file'), (req, res) => {
+router.post('/photos', upload.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).send('No file uploaded.');
     }
@@ -19,16 +21,17 @@ router.post('/photos', photoController.upload.single('file'), (req, res) => {
 
 
 
-router.get('/photos', isAuthenticated, (req, res) => {
-    return res.send(photoController.getWaitList());
+router.get('/photos', isAuthenticated, async (req, res) => {
+    const photos = await photoController.getWaitList()
+    return res.send(photos);
 })
 
 
-router.put('/photos', isAuthenticated, (req, res) => {
-    const { id, status } = req.body
-
+router.put('/photos', isAuthenticated, async (req, res) => {
+    const { _id, status } = req.body
+    console.log(req.body)
     try {
-        photoController.changeStatus(id, status)
+        await photoController.changeStatus(_id, status)
         return res.send('ok')
     } catch (error) {
         return res.status(400).send('Oopsie! Operation failed!')
