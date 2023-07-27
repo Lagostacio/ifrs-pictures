@@ -1,9 +1,13 @@
+require('dotenv').config()
 const express = require('express')
-// const cors = require('cors');
 const app = express()
-const port = 4000
+const port = process.env.PORT
+const cors = require('cors');
 
-const  routes  = require('./routes/')
+app.use(cors());
+
+const routes = require('./routes/')
+
 
 
 // app.use((req, res, next) => {
@@ -20,19 +24,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'))
 
 app.use(routes.photos)
+app.use(routes.login)
 
 app.get('/', (req, res) => {
     res.send('ok')
 })
 
-
-app.post('/login', (req, res) => {
-    const { user, password } = req.body
-    if (user == '123' && password == '123')
-        return res.send('ok')
-
-    return res.status(400).send('Deu erro!!!')
-})
 
 
 

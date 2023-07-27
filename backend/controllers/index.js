@@ -1,5 +1,6 @@
 
 
 module.exports = {
-    photoController:require('./photoController')
+    photoController:require('./photoController'),
+    loginController:require('./loginController')
 }

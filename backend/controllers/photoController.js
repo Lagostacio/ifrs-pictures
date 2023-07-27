@@ -25,11 +25,12 @@ const getAll = () => photos
 const getWaitList = () => photos.filter(v => v.status === -1)
 
 const changeStatus = (id, status) => {
-
+    
     // altera o array de fotos
     // photos = photos.map(v => v.id != id ? v : {...v,status})
     let photo = photos.find(v => v.id == id)
-    return photo.status = status
+    photo.status = status
+    return
 
 }
 
