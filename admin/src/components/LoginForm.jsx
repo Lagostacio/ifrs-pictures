@@ -1,22 +1,19 @@
+const API_URL = import.meta.env.VITE_API_URL
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-const API_URL = import.meta.env.VITE_API_URL
+import { useAuth } from '../AuthContext'
+
 
 export const LoginForm = ({ setError }) => {
 
-    const formStyle = {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-    }
-
-    const [user, setUser] = useState('')
+    const {setToken} = useAuth()
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
 
-    const handleUserChange = ({ value }) => {
-        setUser(value)
+    const handleEmailChange = ({ value }) => {
+        setEmail(value)
     }
 
     const handlePasswordChange = ({ value }) => {
@@ -30,23 +27,30 @@ export const LoginForm = ({ setError }) => {
 
     const submit = () => {
 
+        // if(!email ||  !password)
+        //     return 
+
         const submit = {
-            user,
+            email,
             password
         }
 
         axios.post(`${API_URL}/login`, submit)
-            .then(res => navigate('/photos'))
-            .catch(err => setError(err.response.data))
-
+            .then(res => {
+                setToken(res.data.token)
+                navigate('/photos')
+            })
+            .catch(err => setError(err.response.data.msg))
+        
+        setPassword('')
     }
 
     return (
 
-        <form onSubmit={e => handleSubmit(e)} style={formStyle}>
-            <div>
-                <span>Username:</span>
-                <input type="text" value={user} onChange={({ target }) => handleUserChange(target)} />
+        <form onSubmit={e => handleSubmit(e)} className='userForm'>
+            <div >
+                <span>Email:</span>
+                <input type="email" value={email} onChange={({ target }) => handleEmailChange(target)} />
             </div>
             <div>
                 <span>Password:</span>

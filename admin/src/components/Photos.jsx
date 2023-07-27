@@ -4,7 +4,7 @@ import { useState } from "react"
 
 export const Photos = () => {
     const [error, setError] = useState('')
-    
+
     return (
         <>
             <h1>Photos</h1>
