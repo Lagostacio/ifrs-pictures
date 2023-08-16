@@ -34,7 +34,7 @@ router.put('/photos', isAuthenticated, async (req, res) => {
         await photoController.changeStatus(_id, status)
         return res.send('ok')
     } catch (error) {
-        return res.status(400).send('Oopsie! Operation failed!')
+        return res.status(400).send('Falha ao enviar foto! Tente novamente!!!')
     }
 })
 

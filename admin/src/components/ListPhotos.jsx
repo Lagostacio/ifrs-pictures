@@ -44,7 +44,7 @@ export const ListPhotos = ({ setError }) => {
 
         const data = {
             _id,
-            status: status == 'approve' ? 1 : 0
+            status: status == 'aprovar' 
         }
         console.log(data)
         axios.put(`${API_URL}/photos`, data, {
@@ -71,8 +71,8 @@ export const ListPhotos = ({ setError }) => {
                             <img className='photo' src={imgPath + photo.filename} />
                             <span>{photo.text}</span>
                             <div>
-                                <button onClick={() => sendPhoto(photo, 'approve')} className="ok">Ok</button>
-                                <button onClick={() => sendPhoto(photo, 'deny')} className="deny">X</button>
+                                <button onClick={() => sendPhoto(photo, 'aprovar')} className="ok">Ok</button>
+                                <button onClick={() => sendPhoto(photo, 'reprovar')} className="deny">X</button>
                             </div>
                         </div>
                     )

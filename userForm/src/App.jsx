@@ -61,7 +61,7 @@ function App() {
   return (
     <>
       <div style={containerStyle}>
-        <h1>Send your picture!!</h1>
+        <h1>Envie sua foto!!!</h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data" style={formStyle}>
           <input type="file" onChange={e => handleFileChange(e)} />
           <input type="text" value={text} onChange={({ target }) => handleTextChange(target)} />
