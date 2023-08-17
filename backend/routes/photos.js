@@ -14,7 +14,7 @@ router.post('/photos', upload.single('file'), (req, res) => {
 
     const { text } = req.body
     const { filename } = req.file
-    photoController.addPhoto({ text, filename })
+    photoController.addPhoto({ text, filename, status:-1 })
 
     res.send('File uploaded successfully!');
 });
@@ -29,7 +29,7 @@ router.get('/photos', isAuthenticated, async (req, res) => {
 
 router.put('/photos', isAuthenticated, async (req, res) => {
     const { _id, status } = req.body
-    console.log(req.body)
+
     try {
         await photoController.changeStatus(_id, status)
         return res.send('ok')

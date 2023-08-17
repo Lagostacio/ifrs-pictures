@@ -1,47 +1,17 @@
-const { MongoClient } = require('mongodb');
-const uri = process.env.MONGO_CONNECT;
-const client = new MongoClient(uri, {
-    useUnifiedTopology: true
-});
+const { getCollection, closeConnection } = require('./dbConnection')
 
-async function run() {
-    try {
-        await client.connect();
-        const database = client.db('ifrs_pictures')
-        const collection = database.collection('photos')
+const getAll = async () => {
+    const collection = await getCollection('photos')
+    const cursor = await collection.find()
+    const photos = await cursor.toArray();
+    await closeConnection()
 
-        await database.command({ ping: 1 });
-        // console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-        await client.close();
-    }
+    return photos
 }
-run().catch(console.dir);
-
-// process.on('warning', e => console.warn(e.stack));
-
-const getCollection = async () => {
-
-    try {
-
-        await client.connect();
-        const database = client.db('ifrs_pictures')
-        return database.collection('photos')
-
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-const closeConnection = async () => {
-    await client.close();
-}
-
-const getAll = () => photos
 
 const getWaitList = async () => {
-    const collection = await getCollection()
-    const cursor = await collection.find({ status: null })
+    const collection = await getCollection('photos')
+    const cursor = await collection.find({ status: null})
     const photos = await cursor.toArray();
     await closeConnection()
 
@@ -50,7 +20,7 @@ const getWaitList = async () => {
 
 const changeStatus = async (_id, status) => {
 
-    const collection = await getCollection()
+    const collection = await getCollection('photos')
     const filter = { _id }
     const updateDocument = { $set: { status } }
 
@@ -63,10 +33,16 @@ const changeStatus = async (_id, status) => {
 const addPhoto = async (data) => {
     data.status = null
 
-    const collection = await getCollection()
-    await collection.insertOne(data)
-    await closeConnection()
-    return
+
+    try {
+        const collection = await getCollection('photos')
+        const addedPhoto = await collection.insertOne(data)
+        await closeConnection()
+        return addedPhoto
+
+    } catch (error) {
+        return error
+    }
 
 }
 

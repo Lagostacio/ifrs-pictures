@@ -3,6 +3,7 @@ const router = express.Router()
 
 const { loginController } = require('../controllers/')
 
+router.use(cookieParser())
 
 
 router.post('/login', (req, res) => {
@@ -11,8 +12,6 @@ router.post('/login', (req, res) => {
 
     return res.status(status).send({ token, msg })
 })
-
-
 
 
 module.exports = router
