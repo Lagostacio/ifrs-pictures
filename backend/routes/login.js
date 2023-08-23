@@ -3,7 +3,6 @@ const router = express.Router()
 
 const { loginController } = require('../controllers/')
 
-router.use(cookieParser())
 
 
 router.post('/login', (req, res) => {

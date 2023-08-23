@@ -13,6 +13,7 @@ const getWaitList = async () => {
     const collection = await getCollection('photos')
     const cursor = await collection.find({ status: null})
     const photos = await cursor.toArray();
+    console.log(photos)
     await closeConnection()
 
     return photos

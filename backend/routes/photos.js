@@ -21,7 +21,9 @@ router.post('/photos', upload.single('file'), (req, res) => {
 
 
 
-router.get('/photos', isAuthenticated, async (req, res) => {
+router.get('/photos', 
+// isAuthenticated,
+ async (req, res) => {
     const photos = await photoController.getWaitList()
     return res.send(photos);
 })

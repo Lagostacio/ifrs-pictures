@@ -1,10 +1,9 @@
 const API_URL = import.meta.env.VITE_API_URL
-import { Card } from './components/'
+import { Card } from '../components'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import './App.css'
 
-function App() {
+export const Feed = () => {
   const [photos,setPhotos] = useState([])
 
   const getPhotos = async () => {
@@ -33,4 +32,3 @@ function App() {
   )
 }
 
-export default App
