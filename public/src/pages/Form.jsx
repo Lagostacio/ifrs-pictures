@@ -1,19 +1,20 @@
 const API_URL = import.meta.env.VITE_API_URL
 import { useState } from 'react'
 import axios from 'axios'
-import { Header, Modal } from '../components'
+import { Header, SuccessModal, ErrorModal } from '../components'
 import { CloudArrowUp } from '@phosphor-icons/react'
 
 export const Form = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isSuccessful, setSuccess] = useState(false);
+    const [hasError,setError] = useState(false)
+    const [errorText,setErrorText] = useState('')
     const [image, setImage] = useState(null)
     const [text, setText] = useState('')
     const [file, setFile] = useState({})
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        setIsOpen(true)
-        return
+        
 
         if (!file) {
             return alert('select a file before uploading!!!')
@@ -26,10 +27,14 @@ export const Form = () => {
 
         axios.post(`${API_URL}/photos`, formData)
             .then(res => {
-                console.log(res)
-                alert(res.data)
+                setSuccess(true)
+                setImage(null)
+                setText('')
+                setFile({})
             })
-            .catch(err => console.log(err))
+            .catch(
+                err => {setError(true),setErrorText(err?.response?.data)}
+            )
 
     }
 
@@ -49,7 +54,9 @@ export const Form = () => {
     return (
 
         <>
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <SuccessModal isOpen={isSuccessful} setIsOpen={setSuccess} text='Sua foto foi enviada!! Aguarde sua aprovação.' color='primary'/>
+        <ErrorModal isOpen={hasError} setIsOpen={setError} text={errorText} />
+            
             <div className='bg-lime-50 h-full w-screen flex flex-col items-center '>
                 <Header />
                 <div className=' flex flex-col justify-around pb-24 items-center h-full rounded-md my-2 border-solid border-2 border-green-700 bg-slate-100 opacity-95 w-1/2 '>
@@ -59,16 +66,16 @@ export const Form = () => {
 
                         <div className='flex flex-row my-4 w-full items-end h-1/2'>
                             <div className="w-full mx-2 ">
-                                <label for="arquivo" class="mb-1 block text-sm font-medium text-gray-700">Selecione sua foto</label>
-                                <label class="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-500 p-6 transition-all hover:border-primary-500">
-                                    <div class="space-y-1 text-center">
-                                        <div class="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                                <label htmlFor="arquivo" className="mb-1 block text-sm font-medium text-gray-700">Selecione sua foto</label>
+                                <label className="flex w-full cursor-pointer appearance-none items-center justify-center rounded-md border-2 border-dashed border-gray-500 p-6 transition-all hover:border-primary-500">
+                                    <div className="space-y-1 text-center">
+                                        <div className="mx-auto inline-flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
                                             <CloudArrowUp size={32} />
                                         </div>
-                                        <div class="text-gray-600">Você pode arrastar e soltar sua foto aqui para adicioná-la.</div>
-                                        <p class="text-sm text-gray-500">SVG, PNG ou JPG </p>
+                                        <div className="text-gray-600">Você pode arrastar e soltar sua foto aqui para adicioná-la.</div>
+                                        <p className="text-sm text-gray-500">SVG, PNG ou JPG </p>
                                     </div>
-                                    <input type="file" id='arquivo' onChange={e => handleFileChange(e)} class="sr-only" />
+                                    <input type="file" id='arquivo' onChange={e => handleFileChange(e)} className="sr-only" />
                                 </label>
                             </div>
                             {image  && <img alt="preview image" className='w-1/5 h-full' src={image} />}
@@ -77,8 +84,8 @@ export const Form = () => {
 
 
                         <div className='flex flex-row justify-center items-end w-full'>
-                            <div class="w-4/5 mx-2 " >
-                                <label for="textarea" className="mb-1 block text-sm font-medium text-gray-700">Envie uma mensagem com sua foto!</label>
+                            <div className="w-4/5 mx-2 " >
+                                <label htmlFor="textarea" className="mb-1 block text-sm font-medium text-gray-700">Envie uma mensagem com sua foto!</label>
                                 <textarea id="textarea" value={text} onChange={({ target }) => handleTextChange(target)} className="h-full block w-full rounded-md border-primary-300 shadow-sm focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50" rows="3" placeholder="Deixe sua mensagem!"></textarea>
                             </div>
 

@@ -6,6 +6,7 @@ function App() {
   return (
     <Routes>
         <Route path='/' element={<Form/>}/>
+        <Route path='/form' element={<Form/>}/>
         <Route path='/feed' element={<Feed/>}/>
     </Routes>
   )
